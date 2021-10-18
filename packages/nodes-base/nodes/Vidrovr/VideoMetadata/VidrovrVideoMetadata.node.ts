@@ -1,4 +1,5 @@
-
+// Radhika Mattoo, radhika.mattoo@vidrovr.com
+// Node for fetching video metadata 
 import {
 	IExecuteFunctions,
 } from 'n8n-core';
@@ -13,6 +14,7 @@ import {
 import { OptionsWithUri } from 'request';
 
 export class VidrovrVideoMetadata implements INodeType {
+	// n8n uses the properties set in the description property to render the node in the Editor UI.
 	description: INodeTypeDescription = {
 		displayName: 'VidrovrVideoMetadata',
 		name: 'vidrovrVideoMetadata',
@@ -26,6 +28,8 @@ export class VidrovrVideoMetadata implements INodeType {
 		},
 		inputs: ['main'],
 		outputs: ['main'],
+		// credentials field references custom credentials node for authentication
+		// See: nodes-base/credentials/VidrovrApi.credentials.ts
 		credentials: [
 			{
 				name: 'vidrovrApi',
@@ -47,17 +51,22 @@ export class VidrovrVideoMetadata implements INodeType {
 	};
 
 
+	// Execute function determines what happens when a node is run
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		let returnData = [];
-        // Expecting list of object containing VideoID
+        // Expecting list of objects containing VideoID
+		// In general, you get input data from the current node directly 
+		// or from input passed from the previous node. The latter is what is happening here
         const videos = this.getInputData();
 		
         //Get credentials the user provided for this node
+		// Credentials API node used here!
 		const credentials = await this.getCredentials('vidrovrApi') as IDataObject;
 
 
         for(let i = 0; i < videos.length; i++){
             //Make http request 
+			// Since videos is a list of objects, you reference the offset via param i when you call getNodeParameter
             const video_id = this.getNodeParameter('video_id', i) as string;
             const api_uri = `https://api.vidrovr.com/metadata/metadata/get_metadata?api_key=${credentials.apiKey}&video_id=${video_id}`;
 			const options: OptionsWithUri = {

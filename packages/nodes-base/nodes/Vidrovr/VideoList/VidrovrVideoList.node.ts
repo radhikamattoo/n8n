@@ -1,4 +1,5 @@
-
+// Radhika Mattoo, radhika.mattoo@vidrovr.com
+// Node for fetching a list of user-uploaded videos
 import {
 	IExecuteFunctions,
 } from 'n8n-core';
@@ -59,6 +60,8 @@ export class VidrovrVideoList implements INodeType {
 					required: false,
 					description: 'Order of videos (by date uploaded)'
 				},
+				// Additional fields are grouped into a dropdown on the Node UI
+				// Kept for optional params or params without defaults
 				{
 					displayName: 'Additional Fields',
 					name: 'additionalFields',
@@ -112,12 +115,15 @@ export class VidrovrVideoList implements INodeType {
 		const credentials = await this.getCredentials('vidrovrApi') as IDataObject;
 
 		// Fields with defaults
-		const limit = this.getNodeParameter('limit', 0) as string;
+		// In general, you get input data from the current node directly 
+		// or from input passed from the previous node. The former is what is happening here
+		const limit = this.getNodeParameter('limit', 0) as string; // 0 because it is a single-valued input, not a list of inputs
 		const offset = this.getNodeParameter('offset', 0) as string;
 		const order = this.getNodeParameter('order', 0) as string;
 
 		let api_uri = `https://api.vidrovr.com/assets/get_video_list?api_key=${credentials.apiKey}&order=${order}&limit=${limit}&offset=${offset}`
 
+		// Additional fields (as set in description field above) that are actually filled get grouped together to easily fetch optional params
 		const additionalFields = this.getNodeParameter('additionalFields', 0) as IDataObject;
 
 		// Build request URI

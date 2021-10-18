@@ -1,4 +1,5 @@
-
+// Radhika Mattoo, radhika.mattoo@vidrovr.com
+// Node for searching a user's videos on Vidrovr
 import {
 	IExecuteFunctions,
 } from 'n8n-core';
@@ -108,6 +109,7 @@ export class VidrovrSearch implements INodeType {
 
 		let api_uri = `https://api.vidrovr.com/search/search?api_key=${credentials.apiKey}&query=${query}`
 
+		// Additional fields (as set in description field above) that are actually filled get grouped together to easily fetch optional params
 		const additionalFields = this.getNodeParameter('additionalFields', 0) as IDataObject;
 
 		// Build request URI
