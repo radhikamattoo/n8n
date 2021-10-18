@@ -4,30 +4,24 @@ import {
 } from 'n8n-core';
 
 import {
-	ICredentialsDecrypted,
-	ICredentialTestFunctions,
 	IDataObject,
-	ILoadOptionsFunctions,
 	INodeExecutionData,
-	INodePropertyOptions,
 	INodeType,
 	INodeTypeDescription,
-	NodeCredentialTestResult,
-	NodeOperationError,
 } from 'n8n-workflow';
 
 import { OptionsWithUri } from 'request';
 
-export class VidrovrFetchMetadata implements INodeType {
+export class VidrovrVideoList implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'VidrovrFetchMetadata',
-		name: 'vidrovrFetchMetadata',
+		displayName: 'VidrovrVideoList',
+		name: 'vidrovrVideoList',
 		icon: 'file:vidrovrIcon.png',
 		group: ['input', 'output'],
 		version: 1,
-		description: 'Fetch Vidrovr video metadata',
+		description: 'Fetch Vidrovr video list',
 		defaults: {
-				name: 'Vidrovr Fetch Metadata',
+				name: 'Vidrovr Video List',
 				color: '#1A82e2',
 		},
 		inputs: ['main'],
