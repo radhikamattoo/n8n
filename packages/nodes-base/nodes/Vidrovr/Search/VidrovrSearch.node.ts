@@ -254,8 +254,6 @@ export class VidrovrSearch implements INodeType {
 			json: true,
 			body: body
 		};
-		console.log("API uri:", api_uri);
-		console.log("Body:", body);
 		
 		responseData = await this.helpers.request(options);
 
